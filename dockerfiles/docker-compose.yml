@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    image: mysql:5.7.30
+    container_name: mysql01
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: codimd
+    ports:
+      - "3306:3306"
+    volumes:
+      - database-data:/var/lib/mysql
+        #- ./database/my.cnf:/etc/mysql/my.cnf
+    restart: always
+  codimd:
+    image: nabo.codimd.dev/hackmdio/hackmd:2.1.0
+    environment:
+      - CMD_DB_URL=mysql://root:password@database/codimd
+      - CMD_USECDN=false
+    depends_on:
+      - database
+    ports:
+      - "3000:3000"
+    volumes:
+      - upload-data:/home/hackmd/app/public/uploads
+    restart: always
+volumes:
+  database-data: {}
+  upload-data: {}
