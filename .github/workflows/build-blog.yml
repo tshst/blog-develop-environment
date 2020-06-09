@@ -21,7 +21,7 @@ jobs:
 
       - name: Hugo Build
         run: |
-          cd blog-site-tshst && hugo --minify -d ../docker-nginx-blog/html/ && cd ../docker-nginx-blog/
+          cd blog-site-tshst && hugo --minify -d ../docker-nginx-blog/html/
 
       - name: Docker Build
         uses: docker/build-push-action@v1
@@ -29,5 +29,6 @@ jobs:
             username: ${{ secrets.DOCKER_HUB_USER }}
             password: ${{ secrets.DOCKER_HUB_PASSWORD }}
             repository: tshst/blog
+            path: ./docker-nginx-blog
             tag_with_ref: true
             tag_with_sha: true
